@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "896366546711",
+    "project_id": "kycha-bd300",
+    "storage_bucket": "kycha-bd300.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:896366546711:android:c61f7450eaabe561b4f152",
+        "android_client_info": {
+          "package_name": "com.example.kycha"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "896366546711-jit353snia8vq9j6u3p51o0kjelljceg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kycha",
+            "certificate_hash": "71f5d96b074f2de73ab887da40c27cef7074652a"
+          }
+        },
+        {
+          "client_id": "896366546711-3avi7c8bvp2feihppi8o7brmqjahuq9j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmnffs-ko4PI3K7uXpJf0B-ty-BVLeSMU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "896366546711-3avi7c8bvp2feihppi8o7brmqjahuq9j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
