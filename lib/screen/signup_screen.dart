@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kycha/res/custom_colors.dart';
 import 'package:kycha/screen/chat_screen.dart';
-import 'package:kycha/screen/signin_screen.dart';
 import 'package:kycha/utils/authentications.dart';
 import 'package:kycha/utils/database.dart';
 import 'package:kycha/widgets/custom_textfield.dart';

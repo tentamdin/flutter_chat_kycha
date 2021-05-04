@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kycha/utils/database.dart';
 import 'package:kycha/widgets/custom_textfield.dart';
@@ -8,8 +9,48 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  final _formKey = GlobalKey<FormState>();
   DatabaseMethods databaseMethods = DatabaseMethods();
   TextEditingController searchTextEditingController = TextEditingController();
+
+  QuerySnapshot searchSnapshot;
+
+  void searchUser() {
+    if (_formKey.currentState.validate()) {
+      databaseMethods.getUserByUsername(searchTextEditingController.text).then(
+        (snapshot) {
+          print("snapshor ${snapshot.toString()}");
+          setState(
+            () {
+              searchSnapshot = snapshot;
+            },
+          );
+        },
+      );
+    }
+  }
+
+  //make chat-room and chat
+  // createChatroomAndChat(String username) {
+  //   List<String> users = [];
+  //   databaseMethods.createChatRoom();
+  // }
+
+  Widget searchList() {
+    return searchSnapshot != null
+        ? ListView.builder(
+            itemCount: searchSnapshot.docs.length,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return SearchTile(
+                username: searchSnapshot.docs[index].data()["username"],
+                email: searchSnapshot.docs[index].data()["email"],
+              );
+            },
+          )
+        : Container();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,12 +73,22 @@ class _SearchScreenState extends State<SearchScreen> {
             children: [
               Row(
                 children: [
-                  Expanded(
-                    child: CustomTextField(
-                      textEditingController: searchTextEditingController,
-                      hintText: "search username ...",
-                      iconData: null,
-                      obscureText: false,
+                  Form(
+                    key: _formKey,
+                    child: Expanded(
+                      child: CustomTextField(
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Enter a username!';
+                          } else {
+                            return null;
+                          }
+                        },
+                        textEditingController: searchTextEditingController,
+                        hintText: "search username ...",
+                        iconData: null,
+                        obscureText: false,
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -55,19 +106,63 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: IconButton(
                       icon: Icon(Icons.search),
                       onPressed: () {
-                        databaseMethods
-                            .getUserByUsername(searchTextEditingController.text)
-                            .then((val) {
-                          print(val.toString());
-                        });
+                        searchUser();
                       },
                     ),
-                  )
+                  ),
                 ],
-              )
+              ),
+              searchList(),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class SearchTile extends StatelessWidget {
+  final String username;
+  final String email;
+  SearchTile({this.username, this.email});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      child: Row(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                username,
+                style: TextStyle(color: Colors.white, fontSize: 16),
+              ),
+              Text(
+                email,
+                style: TextStyle(color: Colors.white, fontSize: 16),
+              ),
+            ],
+          ),
+          Spacer(),
+          Container(
+            child: ElevatedButton(
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                ),
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+              ),
+              onPressed: () {},
+              child: Text(
+                "Message",
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
