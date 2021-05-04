@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kycha/res/custom_colors.dart';
 import 'package:kycha/screen/chat_screen.dart';
-import 'package:kycha/screen/signup_screen.dart';
 import 'package:kycha/utils/authentications.dart';
 import 'package:kycha/widgets/custom_textfield.dart';
 import 'package:kycha/widgets/google_signin_btn.dart';

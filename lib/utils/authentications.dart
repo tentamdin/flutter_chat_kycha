@@ -119,7 +119,6 @@ class Authentication {
           ),
         );
       }
-
       return user;
     }
   }

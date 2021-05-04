@@ -5,10 +5,23 @@ class DatabaseMethods {
     return await FirebaseFirestore.instance
         .collection("users")
         .where("username", isEqualTo: username)
-        .get();
+        .get()
+        .catchError((e) {
+      print(e.toString());
+    });
   }
 
   uploadUserInfo(userMap) {
     FirebaseFirestore.instance.collection("users").add(userMap);
+  }
+
+  createChatRoom(String chatroomId, chatRoomMap) {
+    FirebaseFirestore.instance
+        .collection("ChatRoom")
+        .doc(chatroomId)
+        .set(chatRoomMap)
+        .catchError((e) {
+      print("Error while making chat room ${e.toString()}");
+    });
   }
 }
