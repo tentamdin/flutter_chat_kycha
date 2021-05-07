@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kycha/res/custom_colors.dart';
 import 'package:kycha/screen/chat_screen.dart';
 import 'package:kycha/utils/authentications.dart';
+import 'package:kycha/utils/database.dart';
+import 'package:kycha/utils/helper_functions.dart';
 import 'package:kycha/widgets/custom_textfield.dart';
 import 'package:kycha/widgets/google_signin_btn.dart';
 
@@ -17,17 +20,32 @@ class _SignInScreenState extends State<SignInScreen> {
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController passwordTextEditingController = TextEditingController();
 
+  DatabaseMethods databaseMethods = DatabaseMethods();
+  QuerySnapshot snapshotUserInfo;
   bool isLoading = false;
   // form validation method
   void signIn() {
     if (_formKey.currentState.validate()) {
+      HelperFunction.saveUserEmailSharePreference(
+          emailTextEditingController.text);
+
+      databaseMethods
+          .getUserByUserEmail(emailTextEditingController.text)
+          .then((val) {
+        snapshotUserInfo = val;
+        HelperFunction.saveUsernameInSharePreference(
+            snapshotUserInfo.docs[0].data()["username"]);
+      });
+
       setState(() {
         isLoading = true;
       });
+
       Authentication()
           .signInWithEmailAndPassword(emailTextEditingController.text,
               passwordTextEditingController.text)
           .then((value) {
+        HelperFunction.saveUserLoggedInSharePreference(true);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => ChatScreen()),
