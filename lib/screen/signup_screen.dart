@@ -3,6 +3,7 @@ import 'package:kycha/res/custom_colors.dart';
 import 'package:kycha/screen/chat_screen.dart';
 import 'package:kycha/utils/authentications.dart';
 import 'package:kycha/utils/database.dart';
+import 'package:kycha/utils/helper_functions.dart';
 import 'package:kycha/widgets/custom_textfield.dart';
 import 'package:kycha/widgets/google_signin_btn.dart';
 
@@ -28,6 +29,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
         "username": usernameTextEditingController.text,
         "email": emailTextEditingController.text,
       };
+
+      HelperFunction.saveUsernameInSharePreference(
+          usernameTextEditingController.text);
+      HelperFunction.saveUserEmailSharePreference(
+          emailTextEditingController.text);
+
       setState(() {
         isLoading = true;
       });
@@ -36,6 +43,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               passwordTextEditingController.text)
           .then((value) {
         databaseMethods.uploadUserInfo(userInfoMap);
+        HelperFunction.saveUserLoggedInSharePreference(true);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => ChatScreen()),
