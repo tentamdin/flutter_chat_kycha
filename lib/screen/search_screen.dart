@@ -131,9 +131,9 @@ class _SearchScreenState extends State<SearchScreen> {
         title: Text(
           "KyCha",
           style: TextStyle(
-              color: Colors.yellowAccent,
-              fontWeight: FontWeight.bold,
-              fontSize: 22),
+            color: Colors.yellowAccent,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         leading: IconButton(
           onPressed: () {

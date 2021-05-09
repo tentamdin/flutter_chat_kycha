@@ -75,7 +75,7 @@ class Authentication {
   }
 
   // signin with google method and return a user object
-  Future<User> signInWithGoogle({@required BuildContext context}) async {
+  Future<dynamic> signInWithGoogle({@required BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User user;
 

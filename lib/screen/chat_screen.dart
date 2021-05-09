@@ -58,7 +58,11 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("KyCha"),
+        title: Text(
+          "KyCha",
+          style: TextStyle(
+              color: Colors.yellowAccent, fontWeight: FontWeight.bold),
+        ),
         actions: [
           GestureDetector(
             onTap: () {

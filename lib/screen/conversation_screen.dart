@@ -25,9 +25,10 @@ class _ConversationScreenState extends State<ConversationScreen> {
                   itemBuilder: (context, index) {
                     print("Snapshot msg $snapShot");
                     return MessageTile(
-                      snapShot.data.docs[index].data()["message"],
-                      snapShot.data.docs[index].data()["sendBy"] ==
+                      message: snapShot.data.docs[index].data()["message"],
+                      isSendByMe: snapShot.data.docs[index].data()["sendBy"] ==
                           Constants.myUsername,
+                      user: snapShot.data.docs[index].data()["sendBy"],
                     );
                   })
               : Container();
@@ -124,49 +125,82 @@ class _ConversationScreenState extends State<ConversationScreen> {
 class MessageTile extends StatelessWidget {
   final String message;
   final bool isSendByMe;
-  MessageTile(this.message, this.isSendByMe);
+  final String user;
+  MessageTile({this.message, this.isSendByMe, this.user});
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(
-        left: isSendByMe ? 0 : 10,
-        right: isSendByMe ? 10 : 0,
+        left: 10,
+        right: 10,
       ),
       margin: EdgeInsets.symmetric(
-        vertical: 8,
+        vertical: 6,
       ),
-      width: MediaQuery.of(context).size.width,
-      alignment: isSendByMe ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: isSendByMe
-                  ? [
-                      Colors.white10,
-                      Colors.white12,
-                    ]
-                  : [
-                      Colors.blueAccent,
-                      Colors.blue,
-                    ],
+      width: isSendByMe
+          ? MediaQuery.of(context).size.width
+          : MediaQuery.of(context).size.width - 40,
+      child: Row(
+        mainAxisAlignment:
+            isSendByMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+        children: [
+          isSendByMe
+              ? Container()
+              : Padding(
+                  padding: const EdgeInsets.only(top: 20, right: 10),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.blueAccent,
+                    child: Text(
+                      "${user.substring(0, 1).toUpperCase()}",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+          Flexible(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: isSendByMe
+                        ? [
+                            Colors.white10,
+                            Colors.white12,
+                          ]
+                        : [
+                            Colors.blueAccent,
+                            Colors.blue,
+                          ],
+                  ),
+                  borderRadius: isSendByMe
+                      ? BorderRadius.only(
+                          topLeft: Radius.circular(23),
+                          topRight: Radius.circular(23),
+                          bottomLeft: Radius.circular(23),
+                        )
+                      : BorderRadius.only(
+                          topLeft: Radius.circular(23),
+                          topRight: Radius.circular(23),
+                          bottomRight: Radius.circular(23),
+                        )),
+              child: Text(
+                message,
+                style: TextStyle(color: Colors.white, fontSize: 16),
+              ),
             ),
-            borderRadius: isSendByMe
-                ? BorderRadius.only(
-                    topLeft: Radius.circular(23),
-                    topRight: Radius.circular(23),
-                    bottomLeft: Radius.circular(23),
-                  )
-                : BorderRadius.only(
-                    topLeft: Radius.circular(23),
-                    topRight: Radius.circular(23),
-                    bottomRight: Radius.circular(23),
-                  )),
-        child: Text(
-          message,
-          style: TextStyle(color: Colors.white, fontSize: 16),
-        ),
+          ),
+        ],
       ),
     );
   }
 }
+
+//
+// isSendByMe
+// ? Container()
+//     : CircleAvatar(
+// backgroundColor: Colors.blueAccent,
+// child: Text(
+// "${user.substring(0, 1).toUpperCase()}",
+// style: TextStyle(color: Colors.white),
+// ),
+// ),
