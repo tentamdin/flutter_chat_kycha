@@ -73,7 +73,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 SizedBox(height: 20),
                 Text(
-                  'FlutterFire',
+                  'KYCHA',
                   style: TextStyle(
                     color: CustomColors.firebaseYellow,
                     fontSize: 40,
