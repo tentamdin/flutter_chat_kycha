@@ -9,7 +9,6 @@ class Authentication {
   // Initialize Firebase method
   Future<FirebaseApp> initializeFirebase(
       {@required BuildContext context}) async {
-    print("Initialize Firebase method");
     FirebaseApp firebaseApp = await Firebase.initializeApp();
 
     // auto login method
